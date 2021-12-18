@@ -23,6 +23,31 @@ public class Ventas {
         }
     }
 
+    public void InsertarDetalleVenta(int idV, int idP, int precio, int cantidad) {
+        int subtotal = cantidad * precio;
+        try {
+            Connection cn = MyConnection.getConnection();
+            CallableStatement cst = cn.prepareCall("{call agregarDetalleVenta(?,?,?,?,?,?)}");
+            cst.setInt(1, idV);
+            cst.setInt(2, idP);
+            cst.setInt(3, precio);
+            cst.setInt(4, cantidad);
+            cst.setInt(5, subtotal);
+            cst.setInt(6, 0);
+            cst.execute();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        try {
+            Connection cn = MyConnection.getConnection();
+            CallableStatement cst = cn.prepareCall("{call calcularTotalVenta(?)}");
+            cst.setInt(1, idV);
+            cst.execute();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
     public void Modificar(int id, int subtotal, int iva, int total) {
         try {
             Connection cn = MyConnection.getConnection();
@@ -66,5 +91,56 @@ public class Ventas {
         subtotal.setText("");
         cbProductos.setSelectedIndex(0);
         cbCantidad.setSelectedIndex(0);
+    }
+
+    public void Buscar(int id, JTextField txtID_Venta, JTextField txtTotal, JTextField txtSubtotal) {
+        try {
+            Connection cn = MyConnection.getConnection();
+            PreparedStatement pst = cn.prepareStatement("select * from Ventas where folio = ?");
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("folio");
+                int Total = rs.getInt("total");
+                int subtotal = rs.getInt("subtotal");
+                txtID_Venta.setText(String.valueOf(id));
+                txtTotal.setText(String.valueOf(Total));
+                txtSubtotal.setText(String.valueOf(subtotal));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Venta no encontrada");
+        }
+    }
+
+    public int getPrecio(int id, JTextField txtID_Venta, JTextField txtTotal, JTextField txtSubtotal) {
+        int precioProd = 0;
+        try {
+            Connection cn = MyConnection.getConnection();
+            PreparedStatement pst = cn.prepareStatement("select top 1 * from Ventas order by folio desc");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                int folio = rs.getInt("folio");
+                int subtotal = rs.getInt("subtotal");
+                int Total = rs.getInt("total");
+                txtID_Venta.setText(String.valueOf(folio));
+                txtTotal.setText(String.valueOf(Total));
+                txtSubtotal.setText(String.valueOf(subtotal));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        try {
+            Connection cn = MyConnection.getConnection();
+            PreparedStatement pst = cn.prepareStatement("select * from Productos where idProducto = ?");
+            pst.setInt(1, id);
+            System.out.println(id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                precioProd = rs.getInt("precioProducto");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Selecciona un Producto");
+        }
+        return precioProd;
     }
 }

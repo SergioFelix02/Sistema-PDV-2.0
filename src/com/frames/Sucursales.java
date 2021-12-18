@@ -92,7 +92,7 @@ public class Sucursales {
                 for (int i = 0; i < table.getColumnCount(); i++) {
                     table.getColumnModel().getColumn(i).setCellRenderer(new MyCellRenderer());
                 }
-                */
+                 */
             } else {
                 dfm.addColumn("ID");
                 dfm.addColumn("Nombre");
@@ -114,5 +114,24 @@ public class Sucursales {
         id.setText("");
         nombre.setText("");
         domicilio.setText("");
+    }
+
+    public void Buscar(int id, JTextField txtID_Sucursal, JTextField txtNombreS, JTextField txtDomicilio) {
+        try {
+            Connection cn = MyConnection.getConnection();
+            PreparedStatement pst = cn.prepareStatement("select * from Sucursales where idSucursal = ?");
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("idSucursal");
+                String nombre = rs.getString("nombre");
+                String domicilio = rs.getString("domicilio");
+                txtID_Sucursal.setText(String.valueOf(id));
+                txtNombreS.setText(nombre);
+                txtDomicilio.setText(domicilio);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 }

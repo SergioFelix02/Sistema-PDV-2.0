@@ -7,7 +7,7 @@ create table Usuarios (
     idUsuario int primary key identity (1, 1),
     usuario varchar(50) not null,
     contrasena varchar(50) not null,
-	permisos bit,
+    permisos bit,
     estatus bit
 )
 
@@ -329,6 +329,7 @@ select * from Productos
 select * from Sucursales
 select * from Usuarios
 
+exec agregarUsuario 'admin', 'root', '1'
 /*
 exec agregarVenta 1, 0, 12, 0
 exec eliminarVenta 2

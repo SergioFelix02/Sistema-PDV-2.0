@@ -2,7 +2,6 @@ package com.classes;
 
 import java.io.*;
 import java.sql.*;
-
 import javax.swing.JOptionPane;
 
 public class MyConnection {
@@ -10,7 +9,7 @@ public class MyConnection {
     public static Connection getConnection() {
         String User = "";
         String Password = "";
-        String  Server = "";
+        String Server = "";
         try {
             File File2 = new File("CredencialesSQL.txt");
             if (!File2.exists()) {
@@ -25,7 +24,7 @@ public class MyConnection {
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        
+
         String connectionUrl = "jdbc:sqlserver://"
                 + Server + ";"
                 + "database=bdPDV2;"

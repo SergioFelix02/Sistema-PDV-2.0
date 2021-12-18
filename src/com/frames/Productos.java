@@ -130,7 +130,7 @@ public class Productos {
                 for (int i = 0; i < table.getColumnCount(); i++) {
                     table.getColumnModel().getColumn(i).setCellRenderer(new MyCellRenderer());
                 }
-                */
+                 */
             } else {
                 dfm.addColumn("ID");
                 dfm.addColumn("Nombre");
@@ -157,5 +157,28 @@ public class Productos {
         descripcion.setText("");
         precio.setText("");
         cantidad.setText("");
+    }
+
+    public void Buscar(int id, JTextField txtID_Producto, JTextField txtNombre, JTextField txtDescripcion, JTextField txtPrecio, JTextField txtCantidad) {
+        try {
+            Connection cn = MyConnection.getConnection();
+            PreparedStatement pst = cn.prepareStatement("select * from Productos where idProducto = ?");
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("idProducto");
+                String nombre = rs.getString("nombreProducto");
+                String descripcion = rs.getString("descripcionProducto");
+                int precio = rs.getInt("precioProducto");
+                int cantidad = rs.getInt("cantidadProducto");
+                txtID_Producto.setText(String.valueOf(id));
+                txtNombre.setText(nombre);
+                txtDescripcion.setText(descripcion);
+                txtPrecio.setText(String.valueOf(precio));
+                txtCantidad.setText(String.valueOf(cantidad));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 }
