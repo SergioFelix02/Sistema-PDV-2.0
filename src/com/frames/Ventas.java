@@ -82,7 +82,7 @@ public class Ventas {
                 pst.setInt(1, idS);
                 ResultSet rsS = pst.executeQuery();
                 String NombreS = "";
-                if (rsS.next()){
+                if (rsS.next()) {
                     NombreS = rsS.getString("nombre");
                 }
                 //Obtener Nombre Usuario
@@ -91,7 +91,7 @@ public class Ventas {
                 pst.setInt(1, idU);
                 ResultSet rsU = pst.executeQuery();
                 String NombreU = "";
-                if (rsU.next()){
+                if (rsU.next()) {
                     NombreU = rsU.getString("usuario");
                 }
                 //Crear Columna
