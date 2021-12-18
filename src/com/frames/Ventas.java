@@ -14,9 +14,9 @@ public class Ventas {
             CallableStatement cst = cn.prepareCall("{call agregarVenta(?,?,?,?,?)}");
             cst.setInt(1, idS);
             cst.setInt(2, idU);
-            cst.setInt(3, 0);
+            cst.setInt(3, 0); //Subtotal
             cst.setInt(4, iva);
-            cst.setInt(5, 0);
+            cst.setInt(5, 0); //Total
             cst.execute();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -67,8 +67,8 @@ public class Ventas {
             Connection cn = MyConnection.getConnection();
             DefaultTableModel dfm = new DefaultTableModel();
             dfm.addColumn("Folio");
-            dfm.addColumn("ID Sucursal");
-            dfm.addColumn("ID Usuario");
+            dfm.addColumn("Sucursal");
+            dfm.addColumn("Usuario");
             dfm.addColumn("Subtotal");
             dfm.addColumn("IVA");
             dfm.addColumn("Total");
@@ -76,7 +76,26 @@ public class Ventas {
             PreparedStatement pst = cn.prepareStatement("select * from Ventas");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                dfm.addRow(new Object[]{rs.getInt("folio"), rs.getInt("idSucursal"), rs.getInt("idUsuario"), "$" + (rs.getInt("subtotal")), (rs.getInt("iva")) + "%", "$" + (rs.getInt("total")), rs.getDate("fecha")});
+                //Obtener Nombre Sucursal
+                pst = cn.prepareStatement("select nombre from Sucursales where idSucursal = ?");
+                int idS = rs.getInt("idSucursal");
+                pst.setInt(1, idS);
+                ResultSet rsS = pst.executeQuery();
+                String NombreS = "";
+                if (rsS.next()){
+                    NombreS = rsS.getString("nombre");
+                }
+                //Obtener Nombre Usuario
+                pst = cn.prepareStatement("select usuario from Usuarios where idUsuario = ?");
+                int idU = rs.getInt("idUsuario");
+                pst.setInt(1, idU);
+                ResultSet rsU = pst.executeQuery();
+                String NombreU = "";
+                if (rsU.next()){
+                    NombreU = rsU.getString("usuario");
+                }
+                //Crear Columna
+                dfm.addRow(new Object[]{rs.getInt("folio"), NombreS, NombreU, "$" + (rs.getInt("subtotal")), (rs.getInt("iva")) + "%", "$" + (rs.getInt("total")), rs.getDate("fecha")});
             }
             table.setModel(dfm);
             main.DisenarTabla(table, 7);
