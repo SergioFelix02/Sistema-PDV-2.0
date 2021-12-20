@@ -1296,14 +1296,14 @@ public class MainUI extends javax.swing.JFrame {
     //Fin InitComponents
 
     private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
-        this.setVisible(false);
-        login.setVisible(true);
-        login.setID_Usuario(0);
         ResetVentas();
         ResetProductos();
         ResetSucursales();
         ResetUsuarios();
         ResetReportes();
+        this.setVisible(false);
+        login.setVisible(true);
+        login.setID_Usuario(0);
     }//GEN-LAST:event_btnSalirMouseClicked
 
     private void btnVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseClicked
@@ -1379,7 +1379,7 @@ public class MainUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReportesMouseClicked
 
     private void btnInformacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInformacionMouseClicked
-        JOptionPane.showMessageDialog(null, "@2021 - Sergio Felix");
+        JOptionPane.showMessageDialog(null, "@2021 - Desarrollado por Sergio Felix");
     }//GEN-LAST:event_btnInformacionMouseClicked
 
     //Ventas 

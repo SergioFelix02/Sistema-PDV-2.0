@@ -2,6 +2,7 @@ package com.frames;
 
 import com.classes.MyConnection;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -101,6 +102,11 @@ public class LoginUI extends javax.swing.JFrame {
 
         txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         txtUsuario.setBorder(null);
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyReleased(evt);
+            }
+        });
 
         lblContrasena.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         lblContrasena.setForeground(new java.awt.Color(153, 153, 153));
@@ -123,6 +129,11 @@ public class LoginUI extends javax.swing.JFrame {
         txtContrasena.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         txtContrasena.setBorder(null);
         txtContrasena.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtContrasenaKeyReleased(evt);
+            }
+        });
 
         btnIngresar.setBackground(new java.awt.Color(0, 90, 195));
         btnIngresar.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
@@ -140,6 +151,11 @@ public class LoginUI extends javax.swing.JFrame {
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresarActionPerformed(evt);
+            }
+        });
+        btnIngresar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                btnIngresarKeyReleased(evt);
             }
         });
 
@@ -194,19 +210,7 @@ public class LoginUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        String User = txtUsuario.getText();
-        String Password = new String(txtContrasena.getPassword());
-        System.out.println(Password);
-        BuscarU(User, Password);
-        txtUsuario.setText("");
-        txtContrasena.setText("");
-        if (Found == true) {
-            main.setVisible(true);
-            this.setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(null, "Usuario Invalido");
-        }
-        Found = false;
+        IniciarSesion();
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     public void BuscarU(String user, String pass) {
@@ -228,6 +232,21 @@ public class LoginUI extends javax.swing.JFrame {
         main.setCbUsuarios(ID_Usuario);
     }
 
+    public void IniciarSesion(){
+        String User = txtUsuario.getText();
+        String Password = new String(txtContrasena.getPassword());
+        BuscarU(User, Password);
+        txtUsuario.setText("");
+        txtContrasena.setText("");
+        if (Found == true) {
+            main.setVisible(true);
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario Invalido");
+        }
+        Found = false;
+    }
+    
     public int getID_Usuario() {
         return ID_Usuario;
     }
@@ -243,6 +262,24 @@ public class LoginUI extends javax.swing.JFrame {
     private void btnIngresarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseExited
         btnIngresar.setBackground(new java.awt.Color(0, 90, 195));
     }//GEN-LAST:event_btnIngresarMouseExited
+
+    private void txtUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            IniciarSesion();
+        }
+    }//GEN-LAST:event_txtUsuarioKeyReleased
+
+    private void txtContrasenaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContrasenaKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            IniciarSesion();
+        }
+    }//GEN-LAST:event_txtContrasenaKeyReleased
+
+    private void btnIngresarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIngresarKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+            IniciarSesion();
+        }
+    }//GEN-LAST:event_btnIngresarKeyReleased
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
